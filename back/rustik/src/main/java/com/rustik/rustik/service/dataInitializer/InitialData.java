@@ -17,6 +17,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.*;
 
 
@@ -39,6 +40,9 @@ public class InitialData implements ApplicationRunner {
 
     @Autowired
     private RatingRepository ratingRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
     @Autowired
     private StatsViewService statsViewService;
@@ -193,6 +197,7 @@ public class InitialData implements ApplicationRunner {
 
         //Crea Reviews
         createReviews(users, saveCabins);
+        createBookings(users, saveCabins);
 
     }
 
@@ -340,4 +345,28 @@ public class InitialData implements ApplicationRunner {
 
 */
 
+    public void createBookings(List<User> users, List<Cabin> cabins){
+        LocalDate initialDate = LocalDate.now().minusMonths(1);
+        LocalDate baseDate = LocalDate.now().minusMonths(1);
+
+        for (User user: users){
+            for(Cabin cabin: cabins){
+                Booking booking = new Booking();
+                booking.setCabin(cabin);
+                booking.setUser(user);
+                booking.setInitialDate(initialDate);
+                initialDate.plusDays(2);
+                booking.setEndDate(initialDate);
+                bookingRepository.save(booking);
+                initialDate.plusDays(1);
+            }
+
+            baseDate.plusDays(3);
+            initialDate = LocalDate.of(baseDate.getYear(), baseDate.getMonth(), baseDate.getDayOfMonth());
+
+
+        }
+    }
+
 }
+
