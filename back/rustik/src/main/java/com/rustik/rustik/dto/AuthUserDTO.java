@@ -3,6 +3,7 @@ package com.rustik.rustik.dto;
 import com.rustik.rustik.model.User;
 import com.rustik.rustik.model.UserRole;
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 public class AuthUserDTO {

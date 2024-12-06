@@ -11,6 +11,7 @@ import { rustikEndpoints } from '../services/rustkEndPoints';
 import { getRatingDescription } from '../helpers/getRatingDescription';
 import { usePagination } from '../hooks/usePagination';
 import SelectDate from './SelectDate';
+import { useUser } from '../hooks/useUser';
 
 const Catalog = ({ cabin, getCabin }) => {
 
@@ -20,6 +21,7 @@ const Catalog = ({ cabin, getCabin }) => {
     const [selectDateIsOpen, setSelectDateIsOpen] = useState(false);
 
     const { currentData, PaginationControls, setPaginationData  } = usePagination(cabin.ratings);
+    const { isLoggedIn } = useUser();
     
     const getFavoritesData = async () => {
         try {
@@ -39,7 +41,7 @@ const Catalog = ({ cabin, getCabin }) => {
     }, [cabin])
 
     useEffect(() => {
-        getFavoritesData();
+        isLoggedIn && getFavoritesData();
 
     }, [])
 

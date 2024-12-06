@@ -1,0 +1,37 @@
+<configuration>
+    <!-- Appender de consola con un patrón de log más limpio -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Appender de archivo con rotación y un patrón mejorado -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>registrodeSucesos.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>registrodeSucesos-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory> <!-- Mantener solo 7 días de logs antiguos -->
+            <totalSizeCap>1GB</totalSizeCap> <!-- Límite de tamaño total de los archivos de log -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [ %-5p] [%c{1}:%L] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Configuración de root logger para limitar la salida de logs a WARN -->
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <!-- Configuración específica para paquetes con más detalles -->
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework.security" level="WARN"/>
+    <logger name="com.tuempresa.tuaplicacion" level="DEBUG"/>
+
+    <!-- Configuración de logger para control de logs de Spring Boot -->
+    <logger name="org.springframework.boot" level="INFO"/>
+    <logger name="org.springframework.boot.actuate" level="INFO"/>
+</configuration>

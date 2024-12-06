@@ -33,7 +33,8 @@ export const useUser = () => {
                 }
             }
         };
-        !userLoaded && validateToken();
+        const token = localStorage.getItem("token");
+        !userLoaded && token && validateToken();
     }, [refreshLoggedUser]);
 
     const setToken = useCallback((token) => {

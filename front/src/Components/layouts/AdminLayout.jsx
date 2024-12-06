@@ -59,7 +59,9 @@ const AdminLayout = () => {
           <img src="/Icons/logoSvg-white.svg" alt="icono" />
         </Link>
         <div className="flex flex-col items-center gap-2">
+          <div className="text-3xl" >
           <Avatar size={"medium"} name={userName} />
+          </div>
           <p className="capitalize text-xl" >{userName}</p>
           <Link to={routeList.USER_PROFILE} className="px-5 py-2 bg-background-dark rounded-full  text-sm ">
             Editar perfil
@@ -73,18 +75,20 @@ const AdminLayout = () => {
               )
             })
           }
+          </div>
+          <br />
+         
           <button
-            className={`flex items-center gap-3 rounded-lg text-lg px-5 py-3 transition-all hover:bg-secondary-color hover:bg-opacity-15`}
+            className={`flex w-full items-center gap-3 rounded-lg text-lg px-5 py-3 transition-all hover:bg-secondary-color hover:bg-opacity-15 `}
             onClick={logout}
           >
-            <div className="w-5">
+            <div className="w-5 ">
               <LogoutIcon />
             </div>
-            <span className="text-lg overflow-hidden " >
+            <span className="text-lg overflow-hidden" >
               Salir
             </span>
           </button>
-        </div>
       </nav>
       {
         isAdmin && (

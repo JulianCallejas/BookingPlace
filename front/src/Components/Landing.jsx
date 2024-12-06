@@ -103,7 +103,7 @@ function Landing({ filter, setFilter, getNameCabins, cabinHelper }) {
             className={`w-full px-5 text-sm sm:text-base md:text-lg lg:text-xl bg-transparent text-dark-text h-[4rem] outline-none overflow-hidden ${!bookingDates[0] ? "cursor-pointer" : null
               }`}
             type="text"
-            placeholder="Seleccione fechas"
+            placeholder="📅 Seleccione fechas "
             value={bookingDates[0]}
             onClick={() => setDate()}
             readOnly
