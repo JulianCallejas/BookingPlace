@@ -7,9 +7,11 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Principal;
 import java.util.Collection;
+import java.util.Collections;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails, Principal {
 
     @Getter
     private User user;
@@ -18,6 +20,12 @@ public class CustomUserDetails implements UserDetails {
     @Setter
     private String token;
     private Collection<? extends GrantedAuthority> authorities;
+
+    public CustomUserDetails(User user) {
+        this.user = user;
+        this.token = null;
+        this.authorities = Collections.emptyList();
+    }
 
     public CustomUserDetails(User user, String token, Collection<? extends GrantedAuthority> authorities) {
         this.user = user;
@@ -51,4 +59,8 @@ public class CustomUserDetails implements UserDetails {
     }
 
 
+    @Override
+    public String getName() {
+        return "";
+    }
 }

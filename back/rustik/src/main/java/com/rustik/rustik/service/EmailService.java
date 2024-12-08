@@ -1,12 +1,15 @@
 package com.rustik.rustik.service;
 
 
+import com.rustik.rustik.model.Cabin;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 public class EmailService {
@@ -25,7 +28,7 @@ public class EmailService {
 
         try {
             MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);  // true significa que usaremos HTML
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
             helper.setFrom(SPRING_MAIL_USERNAME);
             helper.setTo(toEmail);
@@ -64,6 +67,45 @@ public class EmailService {
 
             mailSender.send(message);
             System.out.println("Correo de confirmación de registro enviado con éxito a " + toEmail);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void sendBookingConfirmationEmail(String toEmail, String username, Cabin cabin, LocalDate initialDate, LocalDate endDate, Double totalPrice) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);  // true para usar HTML
+
+            helper.setFrom(SPRING_MAIL_USERNAME);
+            helper.setTo(toEmail);
+            helper.setSubject("¡Confirmación de Reserva de Cabaña en Rustik!");
+
+            String body = String.format(
+                    "<html><body>" +
+                            "<div style='margin: 0 auto; background-color: #F3F4F6; color:#0C1123; width: 100%%; max-width: 600px; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;'>" +
+                            "<div style='margin: 0 auto; width: 100%%; text-align: center; font-size: 16px;'>" +
+                            "<img src='http://res.cloudinary.com/dmu6eqzqy/image/upload/v1731360711/Rustik-logo/ulwcjystr37bqblnje3p.png' alt='Rustik'>" +
+                            "</div>" +
+                            "<h1>¡Hola, %s!</h1>" +
+                            "<p style='font-size: 16px;'>Gracias por tu reserva en Rustik. Aquí están los detalles de tu reserva:</p>" +
+                            "<p style='font-size: 16px;'><strong>Cabaña:</strong> %s</p>" +
+                            "<p style='font-size: 16px;'><strong>Fecha de inicio:</strong> %s</p>" +
+                            "<p style='font-size: 16px;'><strong>Fecha de fin:</strong> %s</p>" +
+                            "<p style='font-size: 16px;'><strong>Precio total:</strong> $%.2f</p>" +
+                            "<p style='font-size: 16px;'>¡Estamos emocionados de que hayas elegido Rustik para tu escapada! Esperamos que disfrutes tu estancia.</p>" +
+                            "<p style='font-size: 16px;'>Para más detalles, visita <a href='%s'>tu reserva en Rustik</a>.</p>" +
+                            "<br>" +
+                            "<div style='margin: 0 auto; width: 100%%; text-align: center;'>" +
+                            "<img src='http://res.cloudinary.com/dmu6eqzqy/image/upload/v1731360812/Rustik-logo/o1sepuqvrih5biexqajy.png' alt='Rustik' style='height: 40px;' />" +
+                            "</div>" +
+                            "</body></html>",
+                    username, cabin.getName(), initialDate, endDate, totalPrice, RUSTIK_URL
+            );
+
+            helper.setText(body, true);
+
+            mailSender.send(message);
+            System.out.println("Correo de confirmación de reserva enviado con éxito a " + toEmail);
         } catch (Exception e) {
             e.printStackTrace();
         }

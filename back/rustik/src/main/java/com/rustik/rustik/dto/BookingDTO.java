@@ -1,6 +1,7 @@
 package com.rustik.rustik.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rustik.rustik.model.BookingState;
 import com.rustik.rustik.model.Cabin;
 import com.rustik.rustik.model.User;
 import jakarta.validation.constraints.NotBlank;
@@ -34,6 +35,8 @@ public class BookingDTO {
 
     @JsonIgnore
     private LocalDateTime createdAt;
+
+    private BookingState state;
 
 
     public void setDates (){

@@ -115,7 +115,7 @@ public class CabinController {
 
     @Operation(summary = "Actualizar cabaña", description = "Permite actualizar una cabaña existente .")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Cabaña actualizada exitosamente."),
+            @ApiResponse(responseCode = "200", description = "Cabaña actualizada exitosamente."),
             @ApiResponse(responseCode = "400", description = "Solicitud inválida o datos incorrectos."),
             @ApiResponse(responseCode = "404", description = "Cabaña no encontrada.")
     })
@@ -128,14 +128,10 @@ public class CabinController {
 
             Either<List<String>, CabinDTO> result = cabinService.save(cabinDTO);
 
-            return result.fold(
-                    errors -> {
-                        return ResponseEntity.badRequest().body(errors);
-                    },
-                    cabin -> {
-                        return ResponseEntity.status(HttpStatus.CREATED).body(cabin);
-                    }
-            );
+        return result.fold(
+                errors -> ResponseEntity.badRequest().body(errors),
+                cabin -> ResponseEntity.ok().body(cabin)
+        );
     }
 
     @Operation(summary = "Eliminar cabaña", description = "Permite eliminar una cabaña.")

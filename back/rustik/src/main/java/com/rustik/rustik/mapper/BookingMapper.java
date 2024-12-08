@@ -19,6 +19,7 @@ public class BookingMapper {
         bookingDTO.setCreatedAt(booking.getCreatedAt());
         bookingDTO.setDates();
         bookingDTO.setTotalPrice();
+        bookingDTO.setState(booking.getState());
 
         return bookingDTO;
 
